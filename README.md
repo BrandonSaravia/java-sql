@@ -120,15 +120,30 @@ WHERE CustomerID IN ( SELECT CustomerID From Orders WHERE CustomerID = null )
 
 
 
--- Table: public.accounts
 
--- DROP TABLE public.accounts;
+-- Database: budget
+
+-- DROP DATABASE budget;
+
+CREATE DATABASE budget
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United States.1252'
+    LC_CTYPE = 'English_United States.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+
 
 CREATE TABLE public.accounts
 (
-    id integer,
-    name character varying(225) COLLATE pg_catalog."default",
-    budget integer
+    id integer NOT NULL DEFAULT nextval('accounts_id_seq'::regclass) ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name name NOT NULL,
+    budget numeric NOT NULL,
+    CONSTRAINT accounts_pkey PRIMARY KEY (id),
+    CONSTRAINT name UNIQUE (name)
+
 )
 WITH (
     OIDS = FALSE
